@@ -1,6 +1,8 @@
+from turtle import isvisible
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.urls import is_valid_path
+import employees
 from students.models import Student
 from .serializers import StudentSerializer,EmployeeSerializer
 from rest_framework.response import Response
@@ -74,6 +76,14 @@ class EmployeeDetail(APIView):
         employee = self.get_object(pk)
         serializer = EmployeeSerializer(employee)
         return Response(serializer.data,status = status.HTTP_200_OK)
-
-
-
+    def put(self,request,pk):
+        employee = self.get_object(pk)
+        serializer = EmployeeSerializer(employee,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK )
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    def delete(self,request,pk):
+        emoloyee= self.get_object(pk)
+        emoloyee.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
