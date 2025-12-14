@@ -89,7 +89,8 @@ def studentDetailView(request,pk):
 #         emoloyee.delete()
 #         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+"""
+# Mixins
 class Employees(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
@@ -100,6 +101,20 @@ class Employees(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAP
     def post(self,request):
         return self.create(request)
 
+# Mixins
+class EmployeeDetail(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,generics.GenericAPIView):
+    queryset=Employee.objects.all()
+    serializer_class=EmployeeSerializer
 
-class EmployeeDetail(generics.GenericAPIView):
-    pass
+    def get(self,request,pk):
+        return self.retrieve(request,pk)
+
+    def put(self,request,pk):
+        return self.update(request,pk)
+    
+    def delete(self, request,pk):
+        return self.destroy(request,pk)
+
+"""  
+
+      
